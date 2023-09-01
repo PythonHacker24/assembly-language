@@ -25,7 +25,7 @@ _start:			; starting point of code execution
 	mov rax, special_message
 	mov rdx, input_buffer
 	cmp rax, rdx
-	je change_flow
+	jmp change_flow
 	
 	; syscall-write: Output of the user input value
 
