@@ -1,7 +1,9 @@
 ; ------------------------------------------------- ;
 
-;	Author: Aditya Patil 
+;	Author: Aditya Patil
+
 ;       Email: adityapatil24680@gmail.com
+
 ;	x64 Assembly Language with NASM
 
 ; ------------------------------------------------- ;
@@ -10,7 +12,7 @@ global _start
 
 section .data
 
-	hex_chars db "0123456789ABCDE"			; valid hex characters
+	hex_chars db "ABCDEF0123456789"			; valid hex characters
 	
 	success_message: db "Secret Unlocked", 0x0a		; success message
 	fail_message: db "Vault Locked", 0x0a			; failed message
@@ -21,11 +23,9 @@ section .data
 	error_message: db "invalid hex code", 0x0a
 	error_message_size: equ $ - error_message
 
-	input_buffer_size: equ 4
-
 section .bss
 
-	input_buffer resq 4		; takes 4 bytes of input
+	input_buffer resq 16
 
 section .text
 
@@ -38,7 +38,7 @@ _start:
 	mov rax, 0x00		
 	mov rdi, 0x00
 	mov rsi, input_buffer
-	mov rdx, input_buffer_size
+	mov rdx, 16
 	syscall
 
 	mov rdi, rsi			; hex_to_int takes an value from rdi
@@ -46,8 +46,10 @@ _start:
 	
 	; hex value is in the rax
 	
-	cmp rax, 0x100
-	je success
+	cmp rax, 0x100			; compare the value in rax with 0x100 hex 
+	je success			; jump to success function (exit from there) 
+
+	; program will reach here if number is not 0x100, so throw an failed message
 
 	mov rax, 0x01
 	mov rdi, 0x01
@@ -70,8 +72,12 @@ success:
 	mov rsi, success_message
 	mov rdx, success_message_length
 	syscall
-	
-	ret 
+		
+	; exiting with code 0
+
+	mov rax, 0x3c
+	mov rdi, 0x00
+	syscall
 
 hex_to_int:
 	
@@ -124,8 +130,8 @@ search_loop:
 
 digit_found:
 
-	imul rax, rax, 16		; rax = rax * 16
-	add rax, rsi			; building up the hex value
+	imul rdi, rdi, 16		; rax = rax * 16
+	add rax, rdi			; building up the hex value
 
 	inc rcx 			; incrementing the program counter
 	jmp convert_loop 		; loop back the the convert loop section
@@ -134,7 +140,7 @@ done:
 	
 	ret
 	
-; ------------------------------ Notes ------------------------------ ;
+; ---------------------------------------- Notes ---------------------------------------- ;
 ;
 ; when refering to a pointer holding some value, it's actually the memory address the registers
 ; are holding with it. 
@@ -146,5 +152,5 @@ done:
 ;	hence loop over: rsi = 0 to rsi = 6
 ;		[ rbx + rsi ] will fetch desired values 
 ;
-; ------------------------------------------------------------------- ;
+; --------------------------------------------------------------------------------------- ;
 
