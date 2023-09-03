@@ -12,7 +12,7 @@ global _start
 
 section .data
 
-	hex_chars db "ABCDEF0123456789"			; valid hex characters
+	hex_chars db "1234567890ABCDEF"			; valid hex characters
 	
 	success_message: db "Secret Unlocked", 0x0a		; success message
 	fail_message: db "Vault Locked", 0x0a			; failed message
@@ -25,7 +25,7 @@ section .data
 
 section .bss
 
-	input_buffer resq 16
+	input_buffer resb 16
 
 section .text
 
@@ -44,6 +44,8 @@ _start:
 	mov rdi, rsi			; hex_to_int takes an value from rdi
 	call hex_to_int			; calling the hex to integer
 	
+	; debug note: The value of input is being moved to rdi register. After this, hex_to_int is called. Working as expected
+
 	; hex value is in the rax
 	
 	cmp rax, 0x100			; compare the value in rax with 0x100 hex 
@@ -89,6 +91,9 @@ hex_to_int:
 convert_loop:
 	
 	movzx rdi, byte [rdi + rcx]	; get the char from the string
+
+	; debug note: The value of input is getting to the rdi. As expected
+
 	test rdi, rdi			; check if it is a null ptr (end of the string)
 	jz done 			; if yes, jump to done
 
@@ -103,7 +108,12 @@ convert_loop:
 
 search_loop:
 
-	cmp rdi, [rbx + rsi]		; take a single char from the hex_value and compare to the char
+	; debug note: the search loop is searching for all the characters
+
+	; problem caught!: no comparision between 0x41 and A 
+
+	mov r15, [rbx + rsi]		; take a single char from the hex_value and compare to the char
+	cmp rdi, r15
 	je digit_found			; jump to digit_found function if found
 
 	; not found!
@@ -130,7 +140,7 @@ search_loop:
 
 digit_found:
 
-	imul rdi, rdi, 16		; rax = rax * 16
+	imul rax, rax, 16		; rax = rax * 16
 	add rax, rdi			; building up the hex value
 
 	inc rcx 			; incrementing the program counter
