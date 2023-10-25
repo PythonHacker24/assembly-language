@@ -5,9 +5,14 @@ This is an attempt to understand the x64 Assembly language for exploring the com
 
 I am fond of retro computer and I am figuring out how they work. Although I am not a expert, I am trying the explore and research on it. This repository the place where I am archiving my journey. Incase you find some thing that you wanna share about low level computing, please let me know.
 
-It would be great if you share the knowledge with me as I am a beginner, as I will be in next hundred years. 
+## Notes 
 
+### Instruction code handling 
+1. Instruction Pointer -> Keep track of which instruction have being processed and what next instruction in the code has to be processed
+2. Data Pointer -> Keep track of where the data area in memory starts. This area is called the stack.
 
+### Instruction Code Format
+Optional instruction prefix + **Operational Code (opcode)** + Optional Modifier + Optional data element
 
 ## Authors
 
