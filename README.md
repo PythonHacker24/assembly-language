@@ -14,6 +14,11 @@ I am fond of retro computer and I am figuring out how they work. Although I am n
 ### Instruction Code Format
 Optional instruction prefix + **Operational Code (opcode)** + Optional Modifier + Optional data element
 
+### High-Level Languages 
+1. Compiled Languages -> Compiled to an executable format
+2. Interpreted Languages -> Interpreted by another program to execute the instructions
+3. Hybrid Languages -> Example Java to convert the code to byte-code and get the code executed in JRE (Java Runtime Engine)
+
 ## Authors
 
 - [Aditya Patil](https://www.github.com/PythonHacker24)
