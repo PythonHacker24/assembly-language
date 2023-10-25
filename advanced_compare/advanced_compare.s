@@ -30,7 +30,7 @@ _start:			; starting point of code execution
 	; syscall-write: Output of the user input value
 
 	mov rax, 0x01
-	mov rax, 0x01
+	mov rdi, 0x01
 	mov rsi, input_buffer
 	mov rdx, input_buffer_length
 	syscall
