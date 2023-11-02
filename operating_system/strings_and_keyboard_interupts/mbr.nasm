@@ -16,7 +16,7 @@
 
 [org 0x7c00]
 
-mov ah, 0x0e ; bios function for writing in tty mode 
+mov ah, 0x0e ; bios function for writing in tty mode
 mov bx, variableName
 
 printString:
